@@ -1,0 +1,33 @@
+services:
+  mariadb:
+    image: mariadb:10.7
+    container_name: mariadb_glpi
+    hostname: mariadb_glpi
+    volumes:
+      - msql_data:/var/lib/mysql
+    env_file:
+      - .env
+    networks:
+      - glpi_net
+    restart: always
+
+  glpi:
+    image: diouxx/glpi
+    container_name: glpi
+    hostname: glpi
+    ports:
+      - "80:80"
+    volumes:
+      - glpi_data:/var/www/html/glpi
+    env_file:
+      - .env
+    networks:
+      - glpi_net
+    restart: always
+
+volumes:
+  msql_data:
+  glpi_data:
+
+networks:
+  glpi_net:
